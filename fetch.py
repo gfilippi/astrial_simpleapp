@@ -20,7 +20,7 @@ ASTRIAL_INFO_CMD = "/opt/astrial_sysinfo/sysinfo.py"
 GITHUB_REPO = "gfilippi/astrial_simpleapp"
 
 # Installer filename inside release (can be installer.py or installer.sh)
-INSTALLER_NAME = "src/install.py"  
+INSTALLER_NAME = "install.sh"  
 
 # Temporary folder to download/extract release
 TEMP_DIR = "/tmp/astrial_simpleapp"
