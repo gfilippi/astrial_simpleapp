@@ -58,7 +58,7 @@ def ensure_astrial_sysinfo():
 
 def run_astrial_sysinfo():
     try:
-        result = subprocess.run([ASTRIAL_INFO_CMD, "--format json"], capture_output=True, text=True, check=True)
+        result = subprocess.run([ASTRIAL_INFO_CMD, "--format", "json"], capture_output=True, text=True, check=True)
         output = result.stdout.strip()
         try:
             return json.loads(output)
