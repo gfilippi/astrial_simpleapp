@@ -8,7 +8,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 
-TARGET_FOLDER="/root/apps/astrial_simpleapps"  # destination folder
+TARGET_FOLDER="/root/apps/astrial_simpleapp"  # destination folder
 
 SOURCE_FOLDER="$SCRIPT_DIR/src" # folder to copy content from if target does not exist
 
@@ -20,6 +20,8 @@ if [[ -d "$TARGET_FOLDER" ]]; then
     echo "Folder $TARGET_FOLDER exists. Removing it completely..."
     rm -rf "$TARGET_FOLDER"
     echo "Folder removed."
+    mkdir -p "$TARGET_FOLDER"
+    echo "Folder created."
 else
     echo "Folder $TARGET_FOLDER does not exist. Creating it..."
     mkdir -p "$TARGET_FOLDER"
@@ -38,6 +40,6 @@ fi
 # -------------------------------
 # POST-INSTALL
 # -------------------------------
-cd TARGET_FOLDER
+cd $TARGET_FOLDER
 gcc ./helloworld.c -o helloworld
 ./helloworld
