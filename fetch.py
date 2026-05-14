@@ -2,12 +2,12 @@
 
 import subprocess
 import json
-import yaml
 import sys
 import os
 import urllib.request
 import tempfile
 import tarfile
+import importlib
 
 # -------------------------------------------------
 # CONFIGURATION
@@ -39,6 +39,32 @@ def run_cmd(cmd):
         return None
     return result.stdout.strip()
 
+
+def ensure_module(module_name, package_name=None):
+    """
+    Ensure a Python module is installed and importable.
+
+    module_name: name used in `import`
+    package_name: name used in `pip install`
+                  (defaults to module_name)
+    """
+    package_name = package_name or module_name
+
+    try:
+        return importlib.import_module(module_name)
+
+    except ImportError:
+        print(f"Module '{module_name}' not found. Installing '{package_name}'...")
+
+        subprocess.check_call([
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            package_name
+        ])
+
+    return importlib.import_module(module_name)
 
 # -------------------------------------------------
 # Astrial sysinfo
@@ -153,6 +179,11 @@ def main():
     ensure_astrial_sysinfo()
     info = run_astrial_sysinfo()
     if not check_platform(info):
+        sys.exit(1)
+
+    yaml = ensure_module("yaml", "PyYAML")
+    if yaml is None:
+        print("ERROR: yaml module could not be loaded")
         sys.exit(1)
 
     tarball_url = get_latest_release_tarball_url(GITHUB_REPO)
